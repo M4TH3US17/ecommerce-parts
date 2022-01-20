@@ -43,5 +43,6 @@ public class ClientService {
 		entity.setContact(obj.getContact());
 		entity.getAccount().setEmail(obj.getAccount().getEmail());
 		entity.getAccount().setPassword(obj.getAccount().getPassword());
+
 	}
 }
