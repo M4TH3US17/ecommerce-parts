@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.Objects;
 
 import javax.persistence.Column;
+import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -22,13 +23,17 @@ public class Client implements Serializable {
 	@Column(length = 18)
 	private String contact;
 	
+	@Embedded
+	private Account account;
+	
 	public Client() {
 	}
 
-	public Client(Long id, String name, String contact) {
+	public Client(Long id, String name, Account account, String contact) {
 		super();
 		this.id = id;
 		this.name = name;
+		this.account = account;
 		this.contact = contact;
 	}
 
@@ -42,6 +47,14 @@ public class Client implements Serializable {
 
 	public String getContact() {
 		return contact;
+	}
+	
+	public Account getAccount() {
+		return account;
+	}
+
+	public void setAccount(Account account) {
+		this.account = account;
 	}
 
 	public void setContact(String contact) {

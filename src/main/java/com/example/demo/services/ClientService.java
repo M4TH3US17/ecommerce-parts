@@ -41,6 +41,7 @@ public class ClientService {
 	private void updateData(Client entity, Client obj) {
 		entity.setName(obj.getName());
 		entity.setContact(obj.getContact());
-
+		entity.getAccount().setEmail(obj.getAccount().getEmail());
+		entity.getAccount().setPassword(obj.getAccount().getPassword());
 	}
 }
