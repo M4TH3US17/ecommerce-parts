@@ -3,7 +3,10 @@ package com.example.demo.services;
 import java.util.List;
 import java.util.Optional;
 
+import javax.transaction.Transactional;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.stereotype.Service;
 
 import com.example.demo.entities.Category;
@@ -24,14 +27,18 @@ public class CategoryService {
 		return obj.get();
 	}
 
+	@Transactional
 	public Category save(Category obj) {
 		return repository.save(obj);
 	}
 
+	@Transactional
 	public void deleteById(Long id) {
 		repository.deleteById(id);
 	}
-
+	
+	@Modifying
+	@Transactional
 	public Category update(Long id, Category obj) {
 		Category entity = repository.getById(id);
 		updateData(entity, obj);

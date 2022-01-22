@@ -2,7 +2,6 @@ package com.example.demo.entities;
 
 import java.io.Serializable;
 
-import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
 
@@ -10,10 +9,9 @@ import javax.persistence.Embeddable;
 public class Account implements Serializable {
 	private static final long serialVersionUID = 1L;
 
-	@Basic(optional = false)
+	
 	@Column(unique = true)
 	private String email;
-	@Basic(optional = false)
 	private String password;
 	
 	public Account() {

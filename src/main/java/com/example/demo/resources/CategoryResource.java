@@ -34,18 +34,18 @@ public class CategoryResource {
 		return ResponseEntity.ok().body(service.findById(id));
 	}
 
-	@PostMapping
+	@PostMapping(consumes = "application/json", produces = "application/json")
 	public ResponseEntity<Category> save(@RequestBody Category obj) {
 		return ResponseEntity.status(HttpStatus.CREATED).body(service.save(obj));
 	}
 
-	@DeleteMapping("/{id}")
+	@DeleteMapping(value = "/{id}", produces = "application/json")
 	public ResponseEntity<Void> deleteById(@PathVariable Long id) {
 		service.deleteById(id);
-		return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+		return ResponseEntity.status(HttpStatus.OK).build();
 	}
 
-	@PutMapping("/{id}")
+	@PutMapping(value = "/{id}", consumes = "application/json", produces = "application/json")
 	public ResponseEntity<Category> update(@PathVariable Long id, @RequestBody Category obj) {
 		return ResponseEntity.ok().body(service.update(id, obj));
 	}

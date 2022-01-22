@@ -16,39 +16,44 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.demo.entities.Client;
-import com.example.demo.services.ClientService;
+import com.example.demo.entities.Product;
+import com.example.demo.services.ProductService;
 
 @RestController
-@RequestMapping(value = "/clients")
-public class ClientResource {
+@RequestMapping("/products")
+public class ProductResource {
 
 	@Autowired
-	private ClientService service;
+	private ProductService service;
 	
 	@GetMapping
-	public ResponseEntity<List<Client>> findAll(){
+	public ResponseEntity<List<Product>> findAll() {
 		return ResponseEntity.ok().body(service.findAll());
 	}
-	
+
 	@GetMapping("/{id}")
-	public ResponseEntity<Client> findById(@PathVariable Long id){
+	public ResponseEntity<Product> findById(@PathVariable Long id) {
 		return ResponseEntity.ok().body(service.findById(id));
 	}
 	
+	@GetMapping(value = "/category/{category}")
+	public ResponseEntity<List<Product>> findProductByCategory(@PathVariable("category") String category) {
+		return ResponseEntity.ok().body(service.findProductByCategory(category));
+	}
+
 	@PostMapping(consumes = "application/json", produces = "application/json")
-	public ResponseEntity<Client> save(@Valid @RequestBody Client obj){
+	public ResponseEntity<Product> save(@Valid @RequestBody Product obj) {
 		return ResponseEntity.status(HttpStatus.CREATED).body(service.save(obj));
 	}
-	
+
 	@DeleteMapping(value = "/{id}", produces = "application/json")
-	public ResponseEntity<Void> deleteById(@PathVariable Long id){
+	public ResponseEntity<Void> deleteById(@PathVariable Long id) {
 		service.deleteById(id);
 		return ResponseEntity.status(HttpStatus.OK).build();
 	}
-	
+
 	@PutMapping(value = "/{id}", consumes = "application/json", produces = "application/json")
-	public ResponseEntity<Client> update(@PathVariable Long id, @Valid @RequestBody Client obj){
+	public ResponseEntity<Product> update(@PathVariable Long id, @Valid @RequestBody Product obj) {
 		return ResponseEntity.ok().body(service.update(id, obj));
 	}
 }

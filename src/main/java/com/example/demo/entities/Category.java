@@ -22,6 +22,10 @@ public class Category implements Serializable {
 	public Category() {
 	}
 
+	public Category(Long id) {
+		this.id = id;
+	}
+	
 	public Category(Long id, String name) {
 		this.id = id;
 		this.name = name;
@@ -38,7 +42,7 @@ public class Category implements Serializable {
 	public Long getId() {
 		return id;
 	}
-
+	
 	@Override
 	public int hashCode() {
 		return Objects.hash(id);

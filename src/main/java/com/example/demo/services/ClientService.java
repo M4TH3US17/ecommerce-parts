@@ -3,7 +3,10 @@ package com.example.demo.services;
 import java.util.List;
 import java.util.Optional;
 
+import javax.transaction.Transactional;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.stereotype.Service;
 
 import com.example.demo.entities.Client;
@@ -15,6 +18,7 @@ public class ClientService {
 	@Autowired
 	private ClientRepository repository;
 
+	
 	public List<Client> findAll() {
 		return repository.findAll();
 	}
@@ -24,14 +28,18 @@ public class ClientService {
 		return obj.get();
 	}
 
+	@Transactional
 	public Client save(Client obj) {
 		return repository.save(obj);
 	}
 
+	@Transactional
 	public void deleteById(Long id) {
 		repository.deleteById(id);
 	}
 
+	@Modifying
+	@Transactional
 	public Client update(Long id, Client obj) {
 		Client entity = repository.getById(id);
 		updateData(entity, obj);
