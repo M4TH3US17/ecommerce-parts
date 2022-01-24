@@ -53,7 +53,7 @@ public class ProductResource {
 	}
 
 	@PutMapping(value = "/{id}", consumes = "application/json", produces = "application/json")
-	public ResponseEntity<Product> update(@PathVariable Long id, @Valid @RequestBody Product obj) {
+	public ResponseEntity<Product> update(@PathVariable Long id, @Valid @RequestBody Product obj) throws Exception {
 		return ResponseEntity.ok().body(service.update(id, obj));
 	}
 }

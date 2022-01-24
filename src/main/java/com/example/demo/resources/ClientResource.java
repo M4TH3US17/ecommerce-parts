@@ -48,7 +48,7 @@ public class ClientResource {
 	}
 	
 	@PutMapping(value = "/{id}", consumes = "application/json", produces = "application/json")
-	public ResponseEntity<Client> update(@PathVariable Long id, @Valid @RequestBody Client obj){
+	public ResponseEntity<Client> update(@PathVariable Long id, @Valid @RequestBody Client obj) throws Exception {
 		return ResponseEntity.ok().body(service.update(id, obj));
 	}
 }

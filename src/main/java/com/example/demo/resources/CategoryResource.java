@@ -46,7 +46,7 @@ public class CategoryResource {
 	}
 
 	@PutMapping(value = "/{id}", consumes = "application/json", produces = "application/json")
-	public ResponseEntity<Category> update(@PathVariable Long id, @RequestBody Category obj) {
+	public ResponseEntity<Category> update(@PathVariable Long id, @RequestBody Category obj) throws Exception {
 		return ResponseEntity.ok().body(service.update(id, obj));
 	}
 }

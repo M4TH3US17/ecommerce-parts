@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import com.example.demo.entities.Client;
 import com.example.demo.repositories.ClientRepository;
 import com.example.demo.services.exceptions.notfound.ClientNotFoundException;
+import com.example.demo.services.exceptions.notfound.ProductNotFoundException;
 
 @Service
 public class ClientService {
@@ -41,7 +42,10 @@ public class ClientService {
 
 	@Modifying
 	@Transactional
-	public Client update(Long id, Client obj) {
+	public Client update(Long id, Client obj) throws ProductNotFoundException {
+		if(repository.existsById(id) == false) {
+			throw new ProductNotFoundException("Client with id "+id+" not found.");
+		}
 		Client entity = repository.getById(id);
 		updateData(entity, obj);
 		return repository.save(entity);

@@ -25,13 +25,13 @@ public class ProductService {
 
 	public Product findById(Long id) throws ProductNotFoundException {
 		Product obj = repository.findById(id)
-				.orElseThrow(() -> new ProductNotFoundException("Product with id " + id + " not found"));
+				.orElseThrow(() -> new ProductNotFoundException("Product with id " + id + " not found."));
 		return obj;
 	}
 
 	public List<Product> findProductByCategory(String category) throws ProductNotFoundException {
 		if (repository.findProductsByCategory(category).isEmpty() == true) {
-			throw new ProductNotFoundException(category + " not found");
+			throw new ProductNotFoundException(category + " not found.");
 		}
 		return repository.findProductsByCategory(category);
 	}
@@ -51,7 +51,10 @@ public class ProductService {
 
 	@Modifying
 	@Transactional
-	public Product update(Long id, Product obj) {
+	public Product update(Long id, Product obj) throws ProductNotFoundException {
+		if(repository.existsById(id) == false) {
+			throw new ProductNotFoundException("Product with id "+id+" not found.");
+		}
 		Product entity = repository.getById(id);
 		updateData(entity, obj);
 		return repository.save(entity);

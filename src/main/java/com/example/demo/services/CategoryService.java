@@ -40,7 +40,10 @@ public class CategoryService {
 
 	@Modifying
 	@Transactional
-	public Category update(Long id, Category obj) {
+	public Category update(Long id, Category obj) throws CategoryNotFoundException {
+		if(repository.existsById(id) == false) {
+			throw new CategoryNotFoundException("Category with id "+id+" not found.");
+		}
 		Category entity = repository.getById(id);
 		updateData(entity, obj);
 		return repository.save(entity);
