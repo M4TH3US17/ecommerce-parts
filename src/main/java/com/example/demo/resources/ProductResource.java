@@ -42,7 +42,7 @@ public class ProductResource {
 	}
 
 	@PostMapping(consumes = "application/json", produces = "application/json")
-	public ResponseEntity<Product> save(@Valid @RequestBody Product obj) {
+	public ResponseEntity<Product> save(@Valid @RequestBody Product obj) throws Exception {
 		return ResponseEntity.status(HttpStatus.CREATED).body(service.save(obj));
 	}
 

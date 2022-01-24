@@ -24,7 +24,7 @@ public class CategoryService {
 
 	public Category findById(Long id) throws CategoryNotFoundException {
 		Category obj = repository.findById(id)
-				.orElseThrow(() -> new CategoryNotFoundException("Category with id "+id+" not found."));
+				.orElseThrow(() -> new CategoryNotFoundException("Category with id " + id + " not found."));
 		return obj;
 	}
 
@@ -37,7 +37,7 @@ public class CategoryService {
 	public void deleteById(Long id) {
 		repository.deleteById(id);
 	}
-	
+
 	@Modifying
 	@Transactional
 	public Category update(Long id, Category obj) {
