@@ -3,15 +3,17 @@ package com.example.demo.entities;
 import java.io.Serializable;
 import java.util.Objects;
 
-import javax.persistence.Column;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.Size;
+import javax.validation.constraints.NotBlank;
+
+import org.hibernate.validator.constraints.Length;
+
+
 
 @Entity
 @Table(name = "tb_clients")
@@ -22,11 +24,10 @@ public class Client implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
-	@NotEmpty(message = "Nome não pode ser vazio.")
-	@Size(min = 10, max = 100, message = "Nome deve ter entre 10 a 100 caracteres.")
+	@NotBlank(message = "{client.name.not.blank}")
 	private String name;
 	
-	@Column(length = 18, nullable = true)
+	@Length(min = 9, max = 18, message = "{client.contact.lentgh}")
 	private String contact;
 	
 	@Embedded

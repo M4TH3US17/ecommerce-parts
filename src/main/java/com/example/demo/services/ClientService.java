@@ -1,7 +1,6 @@
 package com.example.demo.services;
 
 import java.util.List;
-import java.util.Optional;
 
 import javax.transaction.Transactional;
 
@@ -11,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import com.example.demo.entities.Client;
 import com.example.demo.repositories.ClientRepository;
+import com.example.demo.services.exceptions.notfound.ClientNotFoundException;
 
 @Service
 public class ClientService {
@@ -23,9 +23,10 @@ public class ClientService {
 		return repository.findAll();
 	}
 
-	public Client findById(Long id) {
-		Optional<Client> obj = repository.findById(id);
-		return obj.get();
+	public Client findById(Long id) throws ClientNotFoundException {
+		Client obj = repository.findById(id).orElseThrow(
+				() ->  new ClientNotFoundException("Client with id " + id + " not found."));
+		return obj;
 	}
 
 	@Transactional

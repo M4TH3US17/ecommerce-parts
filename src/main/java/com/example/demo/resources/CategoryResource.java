@@ -30,7 +30,7 @@ public class CategoryResource {
 	}
 
 	@GetMapping("/{id}")
-	public ResponseEntity<Category> findById(@PathVariable Long id) {
+	public ResponseEntity<Category> findById(@PathVariable Long id) throws Exception {
 		return ResponseEntity.ok().body(service.findById(id));
 	}
 

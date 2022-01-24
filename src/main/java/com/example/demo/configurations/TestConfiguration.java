@@ -19,9 +19,6 @@ import com.example.demo.repositories.ProductRepository;
 @Profile("test")
 public class TestConfiguration implements CommandLineRunner {
 
-	/* no perfil de teste, os dados mockados no
-	   método run serão salvados automaticamente
-	   pelo repository */
 	@Autowired 
 	private ClientRepository clientRepository;
 	@Autowired
@@ -35,13 +32,13 @@ public class TestConfiguration implements CommandLineRunner {
 	    Client c2 = new Client(null, "Pedro Almeida", new Account("pedro@gmail.com", "123"), "(11) 91777-7777");
 		clientRepository.saveAll(Arrays.asList(c1, c2));
 		
-		Category cat1 = new Category(null, "Pecas");
+		Category cat1 = new Category(null, "Peças");
 		Category cat2 = new Category(null, "Acessórios");
 		categoryRepository.saveAll(Arrays.asList(cat1, cat2));
 		
-		Product p1 = new Product(null, "pneu", 50.00, "serve pra fzr o carro caminhar", cat1);
-		Product p2 = new Product(null, "vidro", 400.00, "vidro frontal do carro", cat1);
-		Product p3 = new Product(null, "calha de chuva", 30.00, "serve pra sla oq, mas é acessório", cat2);
+		Product p1 = new Product(null, "pneu","https://image/pneu", 50.00, "serve pra fzr o carro caminhar", cat1);
+		Product p2 = new Product(null, "vidro","https://image/vidro", 400.00, "vidro frontal do carro", cat1);
+		Product p3 = new Product(null, "calha de chuva","https://image/calha", 30.00, "serve pra sla oq, mas é acessório", cat2);
 		productRepository.saveAll(Arrays.asList(p1,p2,p3));
 	}
 

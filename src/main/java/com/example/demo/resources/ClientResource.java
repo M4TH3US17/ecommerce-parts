@@ -32,7 +32,7 @@ public class ClientResource {
 	}
 	
 	@GetMapping("/{id}")
-	public ResponseEntity<Client> findById(@PathVariable Long id){
+	public ResponseEntity<Client> findById(@PathVariable Long id) throws Exception {
 		return ResponseEntity.ok().body(service.findById(id));
 	}
 	

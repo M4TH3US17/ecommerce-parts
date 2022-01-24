@@ -25,19 +25,19 @@ public class ProductResource {
 
 	@Autowired
 	private ProductService service;
-	
+
 	@GetMapping
 	public ResponseEntity<List<Product>> findAll() {
 		return ResponseEntity.ok().body(service.findAll());
 	}
 
 	@GetMapping("/{id}")
-	public ResponseEntity<Product> findById(@PathVariable Long id) {
+	public ResponseEntity<Product> findById(@PathVariable Long id) throws Exception {
 		return ResponseEntity.ok().body(service.findById(id));
 	}
-	
+
 	@GetMapping(value = "/category/{category}")
-	public ResponseEntity<List<Product>> findProductByCategory(@PathVariable("category") String category) {
+	public ResponseEntity<List<Product>> findProductByCategory(@PathVariable("category") String category) throws Exception {
 		return ResponseEntity.ok().body(service.findProductByCategory(category));
 	}
 

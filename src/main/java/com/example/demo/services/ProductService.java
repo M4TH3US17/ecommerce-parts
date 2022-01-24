@@ -1,7 +1,6 @@
 package com.example.demo.services;
 
 import java.util.List;
-import java.util.Optional;
 
 import javax.transaction.Transactional;
 
@@ -11,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import com.example.demo.entities.Product;
 import com.example.demo.repositories.ProductRepository;
+import com.example.demo.services.exceptions.notfound.ProductNotFoundException;
 
 @Service
 public class ProductService {
@@ -22,12 +22,16 @@ public class ProductService {
 		return repository.findAll();
 	}
 
-	public Product findById(Long id) {
-		Optional<Product> obj = repository.findById(id);
-		return obj.get();
+	public Product findById(Long id) throws ProductNotFoundException {
+		Product obj = repository.findById(id)
+				.orElseThrow(() -> new ProductNotFoundException("Product with id " + id + " not found"));
+		return obj;
 	}
 
-	public List<Product> findProductByCategory(String category) {
+	public List<Product> findProductByCategory(String category) throws ProductNotFoundException {
+		if(repository.findProductsByCategory(category).isEmpty() == true) {
+			throw new ProductNotFoundException(category + " not found");
+		}
 		return repository.findProductsByCategory(category);
 	}
 
@@ -51,6 +55,7 @@ public class ProductService {
 
 	private void updateData(Product entity, Product obj) {
 		entity.setName(obj.getName());
+		entity.setUrlImage(obj.getUrlImage());
 		entity.setPrice(obj.getPrice());
 		entity.setDescription(obj.getDescription());
 

@@ -1,7 +1,6 @@
 package com.example.demo.services;
 
 import java.util.List;
-import java.util.Optional;
 
 import javax.transaction.Transactional;
 
@@ -11,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import com.example.demo.entities.Category;
 import com.example.demo.repositories.CategoryRepository;
+import com.example.demo.services.exceptions.notfound.CategoryNotFoundException;
 
 @Service
 public class CategoryService {
@@ -22,9 +22,10 @@ public class CategoryService {
 		return repository.findAll();
 	}
 
-	public Category findById(Long id) {
-		Optional<Category> obj = repository.findById(id);
-		return obj.get();
+	public Category findById(Long id) throws CategoryNotFoundException {
+		Category obj = repository.findById(id)
+				.orElseThrow(() -> new CategoryNotFoundException("Category with id "+id+" not found."));
+		return obj;
 	}
 
 	@Transactional

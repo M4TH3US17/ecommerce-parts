@@ -3,17 +3,16 @@ package com.example.demo.entities;
 import java.io.Serializable;
 import java.util.Objects;
 
-import javax.persistence.Basic;
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 
 @Entity
 @Table(name = "tb_products")
@@ -24,14 +23,16 @@ public class Product implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
-	@NotEmpty(message = "O nome não pode estar vazio")
-	@Size(min = 1, max = 70, message = "O nome deve ter entre 1 a 70 caracteres.")
+	@NotBlank(message = "{product.name.not.blank}")
+	@Column(length = 70, nullable = false)
 	private String name;
 	
-	@NotNull(message = "Nome é obrigatório.")
+	@Column(nullable = true, name = "url_image")
+	private String urlImage;
+	
+	@NotNull(message = "{product.price.not.null}")
 	private Double price;
 	
-	@Basic(optional = true)
 	private String description;
 	
 	@ManyToOne(cascade = {CascadeType.MERGE})
@@ -40,9 +41,10 @@ public class Product implements Serializable {
 	public Product() {
 	}
 
-	public Product(Long id, String name, Double price, String description, Category category) {
+	public Product(Long id, String name, String urlImage, Double price, String description, Category category) {
 		this.id = id;
 		this.name = name;
+		this.urlImage = urlImage;
 		this.price = price;
 		this.category = category;
 		this.description = description;
@@ -58,6 +60,14 @@ public class Product implements Serializable {
 
 	public void setName(String name) {
 		this.name = name;
+	}
+
+	public String getUrlImage() {
+		return urlImage;
+	}
+
+	public void setUrlImage(String urlImage) {
+		this.urlImage = urlImage;
 	}
 
 	public Double getPrice() {

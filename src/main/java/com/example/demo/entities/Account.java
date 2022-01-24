@@ -4,14 +4,19 @@ import java.io.Serializable;
 
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
 
 @Embeddable
 public class Account implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	
-	@Column(unique = true)
+	@Email(message = "{account.email.not.valid}")
+	@Column(unique = true, nullable = false)
 	private String email;
+	@NotBlank(message = "{account.password.not.blank}")
+	@Column(nullable = false)
 	private String password;
 	
 	public Account() {
