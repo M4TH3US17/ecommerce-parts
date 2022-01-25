@@ -37,12 +37,13 @@ public class ProductResource {
 	}
 
 	@GetMapping(value = "/category/{category}")
-	public ResponseEntity<List<Product>> findProductByCategory(@PathVariable("category") String category) throws Exception {
+	public ResponseEntity<List<Product>> findProductByCategory(@PathVariable("category") String category)
+			throws Exception {
 		return ResponseEntity.ok().body(service.findProductByCategory(category));
 	}
 
 	@PostMapping(consumes = "application/json", produces = "application/json")
-	public ResponseEntity<Product> save(@Valid @RequestBody Product obj) throws Exception {
+	public ResponseEntity<Product> save(@Valid @RequestBody Product obj) {
 		return ResponseEntity.status(HttpStatus.CREATED).body(service.save(obj));
 	}
 
@@ -54,6 +55,6 @@ public class ProductResource {
 
 	@PutMapping(value = "/{id}", consumes = "application/json", produces = "application/json")
 	public ResponseEntity<Product> update(@PathVariable Long id, @Valid @RequestBody Product obj) throws Exception {
-		return ResponseEntity.ok().body(service.update(id, obj));
+		return ResponseEntity.ok().body(service.update(id, obj));	
 	}
 }

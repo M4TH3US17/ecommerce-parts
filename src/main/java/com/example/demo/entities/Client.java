@@ -9,6 +9,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
 
 import org.hibernate.validator.constraints.Length;
@@ -43,6 +44,10 @@ public class Client implements Serializable {
 		this.account = account;
 		this.contact = contact;
 	}
+	
+	public Long getId() {
+		return id;
+	}
 
 	public String getName() {
 		return name;
@@ -56,20 +61,17 @@ public class Client implements Serializable {
 		return contact;
 	}
 	
+	public void setContact(String contact) {
+		this.contact = contact;
+	}
+
+	@Valid
 	public Account getAccount() {
 		return account;
 	}
 
 	public void setAccount(Account account) {
 		this.account = account;
-	}
-
-	public void setContact(String contact) {
-		this.contact = contact;
-	}
-
-	public Long getId() {
-		return id;
 	}
 
 	@Override

@@ -8,7 +8,7 @@ public class ErrorDetails implements Serializable {
 	private String timestamp;
 	private Integer status;
 	private String error;
-	
+		
 	public ErrorDetails() {
 		super();
 	}

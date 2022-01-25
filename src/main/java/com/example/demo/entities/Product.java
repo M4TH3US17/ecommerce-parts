@@ -1,3 +1,4 @@
+
 package com.example.demo.entities;
 
 import java.io.Serializable;
@@ -23,7 +24,7 @@ public class Product implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
-	@NotBlank(message = "{product.name.not.blank}")
+	@NotBlank(message = "{client.name.not.blank}")
 	@Column(length = 70, nullable = false)
 	private String name;
 	
@@ -93,7 +94,7 @@ public class Product implements Serializable {
 	public void setDescription(String description) {
 		this.description = description;
 	}
-
+	
 	@Override
 	public int hashCode() {
 		return Objects.hash(id);
