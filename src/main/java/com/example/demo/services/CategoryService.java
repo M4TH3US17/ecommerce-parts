@@ -5,6 +5,8 @@ import java.util.List;
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.stereotype.Service;
 
@@ -26,6 +28,10 @@ public class CategoryService {
 		Category obj = repository.findById(id)
 				.orElseThrow(() -> new CategoryNotFoundException("Category with id " + id + " not found."));
 		return obj;
+	}
+	
+	public Page<Category> findByPage(Pageable pageable) {
+		return repository.findAll(pageable);
 	}
 
 	@Transactional

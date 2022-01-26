@@ -39,7 +39,8 @@ public class TestConfiguration implements CommandLineRunner {
 		Product p1 = new Product(null, "pneu","https://image/pneu", 50.00, "serve pra fzr o carro caminhar", cat1);
 		Product p2 = new Product(null, "vidro","https://image/vidro", 400.00, "vidro frontal do carro", cat1);
 		Product p3 = new Product(null, "calha de chuva","https://image/calha", 30.00, "serve pra sla oq, mas é acessório", cat2);
-		productRepository.saveAll(Arrays.asList(p1,p2,p3));
+		Product p4 = new Product(null, "parafuso pneu","https://image/parafuso", 30.00, "serve pra parafuzar", cat1);
+		productRepository.saveAll(Arrays.asList(p1,p2,p3,p4));
 	}
 
 }

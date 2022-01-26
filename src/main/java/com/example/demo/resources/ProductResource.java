@@ -5,6 +5,9 @@ import java.util.List;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -26,12 +29,17 @@ public class ProductResource {
 	@Autowired
 	private ProductService service;
 
-	@GetMapping
+	@GetMapping(produces = "application/json")
 	public ResponseEntity<List<Product>> findAll() {
 		return ResponseEntity.ok().body(service.findAll());
 	}
+	
+	@GetMapping(value = "/pagination", produces = "application/json")
+	public ResponseEntity<Page<Product>> findProductsByPage(@PageableDefault(size = 10)Pageable peageble){
+		return ResponseEntity.ok().body(service.findByPage(peageble));
+	}
 
-	@GetMapping("/{id}")
+	@GetMapping(value = "/{id}", produces = "application/json")
 	public ResponseEntity<Product> findById(@PathVariable Long id) throws Exception {
 		return ResponseEntity.ok().body(service.findById(id));
 	}
@@ -55,6 +63,6 @@ public class ProductResource {
 
 	@PutMapping(value = "/{id}", consumes = "application/json", produces = "application/json")
 	public ResponseEntity<Product> update(@PathVariable Long id, @Valid @RequestBody Product obj) throws Exception {
-		return ResponseEntity.ok().body(service.update(id, obj));	
+		return ResponseEntity.ok().body(service.update(id, obj));
 	}
 }

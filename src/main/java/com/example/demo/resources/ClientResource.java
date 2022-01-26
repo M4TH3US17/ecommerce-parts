@@ -5,6 +5,10 @@ import java.util.List;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -26,14 +30,19 @@ public class ClientResource {
 	@Autowired
 	private ClientService service;
 	
-	@GetMapping
+	@GetMapping(produces = "application/json")
 	public ResponseEntity<List<Client>> findAll(){
 		return ResponseEntity.ok().body(service.findAll());
 	}
 	
-	@GetMapping("/{id}")
+	@GetMapping(value = "/{id}", produces = "application/json")
 	public ResponseEntity<Client> findById(@PathVariable Long id) throws Exception {
 		return ResponseEntity.ok().body(service.findById(id));
+	}
+	
+	@GetMapping(value = "/pagination", produces = "application/json")
+	public ResponseEntity<Page<Client>> findClientsByPage(@PageableDefault(direction = Sort.Direction.ASC, size = 5, sort = "id")Pageable pageable){
+		return ResponseEntity.ok().body(service.findByPage(pageable));
 	}
 	
 	@PostMapping(consumes = "application/json", produces = "application/json")
