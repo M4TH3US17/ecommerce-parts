@@ -14,17 +14,18 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 	
 	@Override // realiza a autorização
 	public void configure(HttpSecurity http) throws Exception {
-		http.csrf().disable()
-		.authorizeRequests()
+		http.csrf().disable().authorizeRequests()
 		.antMatchers(HttpMethod.GET, "/products").permitAll()
+		.antMatchers(HttpMethod.POST, "/clients/resgister").permitAll()
+				
 		.antMatchers("/categories/**").hasRole("ADMIN")
-		.antMatchers(HttpMethod.DELETE, "/products/**").hasRole("ADMIN")
-		.antMatchers(HttpMethod.PUT, "/products/**").hasRole("ADMIN") 
-		.antMatchers(HttpMethod.POST, "/products/**").hasRole("ADMIN")
-		.antMatchers("/clients/**").hasRole("USER")
-		.and().formLogin();
 		
-		//http.httpBasic();
+	    .antMatchers(HttpMethod.PUT, "/products/**").hasRole("ADMIN")
+		.antMatchers(HttpMethod.POST, "/products").hasRole("ADMIN") 
+		.antMatchers(HttpMethod.DELETE, "/products/**").hasRole("ADMIN")
+		
+		.antMatchers("/clients/**").hasRole("USER")
+		.and().formLogin().and().httpBasic();
 	}
 	
 	@Override
@@ -36,7 +37,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 		.roles("USER")
 		.and()
 		.passwordEncoder(passwordEncoder()).withUser("matheus2").password(passwordEncoder().encode("matheus123"))
-		.roles("USER","ADMIN");
+		.roles("ADMIN");
 	}
 	
 	@Bean // Responsável por criptografar, gerar um hash, para cada senha

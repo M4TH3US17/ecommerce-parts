@@ -45,7 +45,7 @@ public class ClientResource {
 		return ResponseEntity.ok().body(service.findByPage(pageable));
 	}
 	
-	@PostMapping(consumes = "application/json", produces = "application/json")
+	@PostMapping(value = "/register", consumes = "application/json", produces = "application/json")
 	public ResponseEntity<Client> save(@Valid @RequestBody Client obj){
 		return ResponseEntity.status(HttpStatus.CREATED).body(service.save(obj));
 	}
