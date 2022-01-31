@@ -12,6 +12,7 @@ import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
+import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -53,4 +54,15 @@ public class ControllerExceptionHandler {
 		});
 		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(map);
 	}
+	
+	@ExceptionHandler(HttpRequestMethodNotSupportedException.class)
+	public ResponseEntity<ErrorDetails> urlInvalidException(HttpRequestMethodNotSupportedException e){
+		ErrorDetails error = new ErrorDetails();
+		error.setTimestamp(LocalDateTime.now().format(formatter));
+		error.setStatus(HttpStatus.METHOD_NOT_ALLOWED.value());
+		error.setError("Non-existent URL address");
+		return ResponseEntity.status(HttpStatus.METHOD_NOT_ALLOWED).body(error);
+	}
+	
+	
 }
