@@ -63,6 +63,4 @@ public class ControllerExceptionHandler {
 		error.setError("Non-existent URL address");
 		return ResponseEntity.status(HttpStatus.METHOD_NOT_ALLOWED).body(error);
 	}
-	
-	
 }

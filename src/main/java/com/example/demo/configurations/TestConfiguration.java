@@ -3,9 +3,11 @@ package com.example.demo.configurations;
 import java.util.Arrays;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import com.example.demo.entities.Account;
 import com.example.demo.entities.Category;
@@ -26,10 +28,14 @@ public class TestConfiguration implements CommandLineRunner {
 	@Autowired
 	private ProductRepository productRepository;
 	
+	@Autowired
+	@Qualifier("passwordCode")
+	private PasswordEncoder encoder;
+	
 	@Override
 	public void run(String... args) throws Exception {
-		Client c1 = new Client(null, "Matheus Dalvino", new Account("matheusdalvino50@gmail.com", "123"), "(92) 92702070");
-	    Client c2 = new Client(null, "Pedro Almeida", new Account("pedro@gmail.com", "123"), "(11) 91777-7777");
+		Client c1 = new Client(null, "Matheus Dalvino", new Account("matheusdalvino50@gmail.com", encoder.encode("matheus123"), true /*ADMIN*/), "(92) 92702070");
+	    Client c2 = new Client(null, "Pedro Almeida", new Account("pedro@gmail.com",  encoder.encode("pedro123"), false/*USER*/), "(11) 91777-7777");
 		clientRepository.saveAll(Arrays.asList(c1, c2));
 		
 		Category cat1 = new Category(null, "Peças");

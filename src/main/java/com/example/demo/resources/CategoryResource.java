@@ -1,7 +1,5 @@
 package com.example.demo.resources;
 
-import java.util.List;
-
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,10 +27,10 @@ public class CategoryResource {
 	@Autowired
 	private CategoryService service;
 
-	@GetMapping(produces = "application/json")
+	/*@GetMapping(produces = "application/json")
 	public ResponseEntity<List<Category>> findAll() {
 		return ResponseEntity.ok().body(service.findAll());
-	}
+	}*/
 	
 	@GetMapping(value = "/pagination", produces = "application/json")
 	public ResponseEntity<Page<Category>> findCategoriesByPage(@PageableDefault(size = 10)Pageable pageable){

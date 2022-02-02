@@ -1,7 +1,5 @@
 package com.example.demo.services;
 
-import java.util.List;
-
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,9 +20,9 @@ public class ClientService {
 	private ClientRepository repository;
 
 	
-	public List<Client> findAll() {
+	/*public List<Client> findAll() {
 		return repository.findAll();
-	}
+	}*/
 
 	public Client findById(Long id) throws ClientNotFoundException {
 		Client obj = repository.findById(id).orElseThrow(
