@@ -21,16 +21,13 @@ public class Account implements Serializable {
 	@Column(nullable = false)
 	@JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
 	private String password;
-	@Column
-	private boolean admin;
 
 	public Account() {
 	}
 
-	public Account(String email, String password, boolean admin) {
+	public Account(String email, String password) {
 		this.email = email;
 		this.password = password;
-		this.admin = admin;
 	}
 
 	public String getEmail() {
@@ -48,13 +45,5 @@ public class Account implements Serializable {
 
 	public void setPassword(String password) {
 		this.password = password;
-	}
-
-	public boolean isAdmin() {
-		return admin;
-	}
-
-	public void setAdmin(boolean admin) {
-		this.admin = admin;
 	}
 }

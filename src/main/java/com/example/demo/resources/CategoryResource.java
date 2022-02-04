@@ -21,16 +21,11 @@ import com.example.demo.entities.Category;
 import com.example.demo.services.CategoryService;
 
 @RestController
-@RequestMapping("/categories")
+@RequestMapping("/api/categories")
 public class CategoryResource {
 
 	@Autowired
 	private CategoryService service;
-
-	/*@GetMapping(produces = "application/json")
-	public ResponseEntity<List<Category>> findAll() {
-		return ResponseEntity.ok().body(service.findAll());
-	}*/
 	
 	@GetMapping(value = "/pagination", produces = "application/json")
 	public ResponseEntity<Page<Category>> findCategoriesByPage(@PageableDefault(size = 10)Pageable pageable){

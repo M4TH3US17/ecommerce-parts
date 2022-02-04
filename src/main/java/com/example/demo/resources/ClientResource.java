@@ -3,14 +3,12 @@ package com.example.demo.resources;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -24,20 +22,11 @@ import com.example.demo.entities.Client;
 import com.example.demo.services.ClientService;
 
 @RestController
-@RequestMapping(value = "/clients")
+@RequestMapping(value = "/api/clients")
 public class ClientResource {
 
 	@Autowired
 	private ClientService service;
-	
-	@Autowired
-	@Qualifier("passwordCode")
-	private PasswordEncoder encoder;
-	
-	/*@GetMapping(produces = "application/json")
-	public ResponseEntity<List<Client>> findAll(){
-		return ResponseEntity.ok().body(service.findAll());
-	}*/
 	
 	@GetMapping(value = "/{id}", produces = "application/json")
 	public ResponseEntity<Client> findById(@PathVariable Long id) throws Exception {
@@ -51,8 +40,6 @@ public class ClientResource {
 	
 	@PostMapping(consumes = "application/json", produces = "application/json")
 	public ResponseEntity<Client> save(@Valid @RequestBody Client obj){
-		String encryptedPassword = encoder.encode(obj.getAccount().getPassword());
-		obj.getAccount().setPassword(encryptedPassword);
 		return ResponseEntity.status(HttpStatus.CREATED).body(service.save(obj));
 	}
 	

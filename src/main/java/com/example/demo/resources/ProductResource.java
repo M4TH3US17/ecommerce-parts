@@ -23,16 +23,11 @@ import com.example.demo.entities.Product;
 import com.example.demo.services.ProductService;
 
 @RestController
-@RequestMapping("/products")
+@RequestMapping("/api/products")
 public class ProductResource {
 
 	@Autowired
 	private ProductService service;
-
-	/*@GetMapping(produces = "application/json")
-	public ResponseEntity<List<Product>> findAll() {
-		return ResponseEntity.ok().body(service.findAll());
-	}*/
 	
 	@GetMapping(value = "/pagination", produces = "application/json")
 	public ResponseEntity<Page<Product>> findProductsByPage(@PageableDefault(size = 10)Pageable peageble){
