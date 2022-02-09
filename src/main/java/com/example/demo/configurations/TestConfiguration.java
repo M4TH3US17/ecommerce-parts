@@ -8,32 +8,42 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-import com.example.demo.entities.Account;
 import com.example.demo.entities.Category;
 import com.example.demo.entities.Client;
 import com.example.demo.entities.Product;
+import com.example.demo.entities.Role;
 import com.example.demo.repositories.CategoryRepository;
 import com.example.demo.repositories.ClientRepository;
 import com.example.demo.repositories.ProductRepository;
+import com.example.demo.repositories.RoleRepository;
 
 @Configuration
 @Profile("test")
 public class TestConfiguration implements CommandLineRunner {
-
-	@Autowired 
-	private ClientRepository clientRepository;
+	
 	@Autowired
 	private CategoryRepository categoryRepository;
 	@Autowired
 	private ProductRepository productRepository;
+	@Autowired
+	private RoleRepository roleRepository;
+	@Autowired
+	private ClientRepository clientRepository;
 	
 	@Autowired
 	private PasswordEncoder encoder;
 	
 	@Override
 	public void run(String... args) throws Exception {
-		Client c1 = new Client(null, "Matheus Dalvino", new Account("matheusdalvino50@gmail.com", encoder.encode("matheus123")), "(92) 92702070");
-	    Client c2 = new Client(null, "Pedro Almeida", new Account("pedro@gmail.com",  encoder.encode("pedro123")), "(11) 91777-7777");
+		Role r1 = new Role(null, "ROLE_ADMIN");
+		Role r2 = new Role(null, "ROLE_USER");
+		roleRepository.saveAll(Arrays.asList(r1, r2));
+		
+		Client c1 = new Client(null, "Matheus Dalvino", "matheusdalvino50@gmail.com", encoder.encode("matheus123"), "(92) 92702070");
+		c1.getRoles().add(r1);
+		c1.getRoles().add(r2);
+		Client c2 = new Client(null, "Pedro Almeida", "pedro@gmail.com", encoder.encode("pedro123"), "(11) 91777-7777");
+		c2.getRoles().add(r2);
 		clientRepository.saveAll(Arrays.asList(c1, c2));
 		
 		Category cat1 = new Category(null, "Peças");
@@ -47,4 +57,21 @@ public class TestConfiguration implements CommandLineRunner {
 		productRepository.saveAll(Arrays.asList(p1,p2,p3,p4));
 	}
 
+	/*@Bean
+	CommandLineRunner run(ClientService service) {
+		return args -> {
+			Collection<Role> r1 = new ArrayList<>();
+			Client c1 = new Client(null, "Matheus Dalvino", "matheusdalvino50@gmail.com", encoder.encode("matheus123"), "(92) 92702070");
+			r1.addAll(Arrays.asList(roleRepository.findByName("ROLE_ADMIN"), roleRepository.findByName("ROLE_USER")));
+			c1.getRoles().addAll(r1);
+			
+			Collection<Role> r2 = new ArrayList<>();
+			Client c2 = new Client(null, "Pedro Almeida", "pedro@gmail.com", encoder.encode("pedro123"), "(11) 91777-7777");
+			r2.addAll(Arrays.asList(roleRepository.findByName("ROLE_USER")));
+			c2.getRoles().addAll(r2);
+					
+			service.save(c1);
+			service.save(c2);
+		};
+	}*/
 }

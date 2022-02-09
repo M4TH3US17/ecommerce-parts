@@ -12,6 +12,6 @@ import com.example.demo.entities.Client;
 @Repository
 public interface ClientRepository extends JpaRepository<Client, Long> {
 
-	@Query("SELECT c from Client c JOIN c.account a WHERE a.email = :email")
+	@Query("SELECT c from Client c WHERE c.email = :email")
 	Optional<Client> findByEmail(@Param("email") String email);
 }

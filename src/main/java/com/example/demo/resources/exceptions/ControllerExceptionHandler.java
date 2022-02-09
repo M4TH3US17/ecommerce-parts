@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.NoSuchElementException;
 
 import javax.validation.ConstraintViolationException;
 
@@ -27,7 +28,7 @@ public class ControllerExceptionHandler {
 	DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
 
 	@ExceptionHandler({ ProductNotFoundException.class, ClientNotFoundException.class,
-			CategoryNotFoundException.class })
+			CategoryNotFoundException.class, NoSuchElementException.class })
 	protected ResponseEntity<ErrorDetails> entityNotFoundException(Exception ex) {
 		ErrorDetails erro = new ErrorDetails(LocalDateTime.now().format(formatter), HttpStatus.NOT_FOUND.value(),
 				ex.getLocalizedMessage());

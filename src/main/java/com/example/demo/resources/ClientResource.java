@@ -9,6 +9,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -28,6 +29,9 @@ public class ClientResource {
 	@Autowired
 	private ClientService service;
 	
+	@Autowired
+	private PasswordEncoder encoder;
+	
 	@GetMapping(value = "/{id}", produces = "application/json")
 	public ResponseEntity<Client> findById(@PathVariable Long id) throws Exception {
 		return ResponseEntity.ok().body(service.findById(id));
@@ -38,9 +42,16 @@ public class ClientResource {
 		return ResponseEntity.ok().body(service.findByPage(pageable));
 	}
 	
-	@PostMapping(consumes = "application/json", produces = "application/json")
-	public ResponseEntity<Client> save(@Valid @RequestBody Client obj){
-		return ResponseEntity.status(HttpStatus.CREATED).body(service.save(obj));
+	@PostMapping(value = "/register",consumes = "application/json", produces = "application/json")
+	public ResponseEntity<Client> saveClient(@Valid @RequestBody Client obj){ // endpoint pra salvar usuários (Padrão)
+		obj.setPassword(encoder.encode(obj.getPassword()));
+		return ResponseEntity.status(HttpStatus.CREATED).body(service.saveClient(obj));
+	}
+	
+	@PostMapping(value = "/admin/register",consumes = "application/json", produces = "application/json")
+	public ResponseEntity<Client> saveAdmin(@Valid @RequestBody Client obj){ //endepoint pra salvar admins (Restrito)
+		obj.setPassword(encoder.encode(obj.getPassword()));
+		return ResponseEntity.status(HttpStatus.CREATED).body(service.saveAdmin(obj));
 	}
 	
 	@DeleteMapping(value = "/{id}", produces = "application/json")
