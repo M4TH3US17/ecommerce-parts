@@ -10,10 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.Modifying;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -25,7 +21,7 @@ import com.example.demo.services.exceptions.notfound.ClientNotFoundException;
 import com.example.demo.services.exceptions.notfound.ProductNotFoundException;
 
 @Service
-public class ClientService implements UserDetailsService {
+public class ClientService {
 
 	@Autowired
 	private ClientRepository repository;
@@ -96,12 +92,5 @@ public class ClientService implements UserDetailsService {
 		role.add(roleRepository.findByName("ROLE_USER"));
 		obj.setRoles(role);
 		return obj;
-	}
-	
-	@Override
-	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-		Client user = repository.findByEmail(username).orElseThrow(
-				() -> new UsernameNotFoundException("User not found"));
-		return new User(user.getUsername(), user.getPassword(), user.getAuthorities());
 	}
 }

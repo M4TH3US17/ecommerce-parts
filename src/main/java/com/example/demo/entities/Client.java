@@ -41,7 +41,7 @@ public class Client implements Serializable, UserDetails {
 	
 	@NotBlank(message = "{account.password.not.blank}")
 	@Column(nullable = false)
-	@JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+	//@JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
 	private String password;
 	
 	@Length(min = 9, max = 18, message = "{client.contact.lentgh}")
