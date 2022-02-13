@@ -27,6 +27,7 @@ public class JwtService {
 		return Jwts.builder()
 				// Email é único no database
 				.setSubject(client.getEmail())
+				.claim("name", client.getName())
 				.claim("contact", client.getContact())
 				.claim("password", client.getPassword())
 				// Gera uma data de expiração pro Token

@@ -1,7 +1,5 @@
 package com.example.demo.resources;
 
-import java.util.Set;
-
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,7 +9,6 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -28,9 +25,7 @@ import com.example.demo.configurations.jwt.JwtService;
 import com.example.demo.configurations.jwt.dto.CredentialsDTO;
 import com.example.demo.configurations.jwt.dto.TokenDTO;
 import com.example.demo.entities.Client;
-import com.example.demo.entities.Role;
 import com.example.demo.services.ClientService;
-import com.example.demo.services.impl.ImplementationUserDetails;
 
 @RestController
 @RequestMapping(value = "/api/clients")
@@ -38,8 +33,6 @@ public class ClientResource {
 
 	@Autowired
 	private ClientService service;
-	@Autowired
-	private ImplementationUserDetails clientServiceImpl;
 	@Autowired
 	private PasswordEncoder encoder;
 	@Autowired 
@@ -78,19 +71,15 @@ public class ClientResource {
 		return ResponseEntity.ok().body(service.update(id, obj));
 	}
 	
-	// manutenção
    @PostMapping(value = "/auth", consumes = "application/json", produces = "application/json")
-	public TokenDTO authenticate(@RequestBody CredentialsDTO credentials) throws Exception {
+	public TokenDTO authenticate(@Valid @RequestBody CredentialsDTO credentials) throws Exception {
 		try {
-			Client obj = new Client(null, null
-					, credentials.getEmail()
-					, credentials.getPassword(), null);
-			
-			UserDetails client = clientServiceImpl.authenticate(obj);
-			return new TokenDTO(obj.getEmail(), jwtService.generationToken(obj));
+			Client client = service.authenticate(
+					new Client(credentials.getEmail(), credentials.getPassword()));
+			return new TokenDTO(client.getName(), jwtService.generationToken(client));
 			
 		} catch(UsernameNotFoundException e) {
-			throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, e.getMessage());
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "check that the credentials (email and password) are correct.");
 		}
 	} 
 }

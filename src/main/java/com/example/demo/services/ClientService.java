@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.Modifying;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -17,8 +18,10 @@ import com.example.demo.entities.Client;
 import com.example.demo.entities.Role;
 import com.example.demo.repositories.ClientRepository;
 import com.example.demo.repositories.RoleRepository;
+import com.example.demo.resources.exceptions.verification.PasswordInvalidException;
 import com.example.demo.services.exceptions.notfound.ClientNotFoundException;
 import com.example.demo.services.exceptions.notfound.ProductNotFoundException;
+import com.example.demo.services.impl.ImplementationUserDetails;
 
 @Service
 public class ClientService {
@@ -27,6 +30,8 @@ public class ClientService {
 	private ClientRepository repository;
 	@Autowired
 	private RoleRepository roleRepository;
+	@Autowired
+	private ImplementationUserDetails clientServiceImpl;
 	@Autowired
 	private PasswordEncoder encoder;
 
@@ -93,4 +98,16 @@ public class ClientService {
 		obj.setRoles(role);
 		return obj;
 	}
+	
+	// verifica se a senha do banco é a mesma que a senha informada
+		public Client authenticate(Client obj) throws PasswordInvalidException { 
+			UserDetails client = clientServiceImpl.loadUserByUsername(obj.getEmail());
+			// compara as senhas (senha do banco e senha informada)
+			boolean validationPassword = encoder.matches(obj.getPassword(), client.getPassword()); 
+			if(validationPassword) {
+				Client object = repository.findByEmail(obj.getEmail()).orElseThrow();
+				return object;
+			}
+			throw new PasswordInvalidException("Password Invalid");
+		}
 }

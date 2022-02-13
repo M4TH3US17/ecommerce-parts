@@ -41,7 +41,7 @@ public class Client implements Serializable, UserDetails {
 	
 	@NotBlank(message = "{account.password.not.blank}")
 	@Column(nullable = false)
-	//@JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+	@JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
 	private String password;
 	
 	@Length(min = 9, max = 18, message = "{client.contact.lentgh}")
@@ -51,6 +51,11 @@ public class Client implements Serializable, UserDetails {
 	private Set<Role> roles = new HashSet<>();
 	
 	public Client(){
+	}
+	
+	public Client(String email, String password) {
+		this.email = email;
+		this.password = password;
 	}
 
 	public Client(Long id, String name, String email, String password, String contact) {

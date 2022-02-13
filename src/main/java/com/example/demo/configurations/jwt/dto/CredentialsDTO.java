@@ -11,7 +11,7 @@ public class CredentialsDTO implements Serializable{
 	public CredentialsDTO() {
 	}
 
-	public CredentialsDTO(String email, String password) { // vou passar roles nos parâmentros pq n quero usar o .add()
+	public CredentialsDTO(String email, String password) {
 		this.email = email;
 		this.password = password;
 	}
