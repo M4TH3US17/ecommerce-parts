@@ -78,10 +78,6 @@ public class ClientService {
 		entity.setContact(obj.getContact());
 		entity.setEmail(obj.getEmail());
 		entity.setPassword(encoder.encode(obj.getPassword()));
-		
-	    Set<Role> list = new HashSet<>();
-	    list.add(roleRepository.findByName("ROLE_USER"));
-		entity.setRoles(list);
 	}
 	
 	private Client addRoleToClient(Client obj) {

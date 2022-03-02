@@ -59,6 +59,7 @@ public class Client implements Serializable, UserDetails {
 	}
 
 	public Client(Long id, String name, String email, String password, String contact) {
+		this.id = id;
 		this.name = name;
 		this.email = email;
 		this.password = password;
