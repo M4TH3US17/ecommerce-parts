@@ -43,7 +43,7 @@ public class CategoryResource {
 	}
 
 	@DeleteMapping(value = "/{id}", produces = "application/json")
-	public ResponseEntity<Void> deleteById(@PathVariable Long id) {
+	public ResponseEntity<Void> deleteById(@PathVariable Long id) throws Exception {
 		service.deleteById(id);
 		return ResponseEntity.status(HttpStatus.OK).build();
 	}

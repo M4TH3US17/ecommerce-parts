@@ -40,7 +40,7 @@ public class CategoryService {
 	}
 
 	@Transactional
-	public void deleteById(Long id) {
+	public void deleteById(Long id) throws CategoryNotFoundException {
 		repository.deleteById(id);
 	}
 
