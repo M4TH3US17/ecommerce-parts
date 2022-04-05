@@ -11,6 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -28,6 +29,7 @@ import com.example.demo.entities.Client;
 import com.example.demo.services.ClientService;
 
 @RestController
+@CrossOrigin("*")
 @RequestMapping(value = "/api/clients")
 public class ClientResource {
 
@@ -72,11 +74,11 @@ public class ClientResource {
 	}
 	
    @PostMapping(value = "/auth", consumes = "application/json", produces = "application/json")
-	public TokenDTO authenticate(@Valid @RequestBody CredentialsDTO credentials) throws Exception {
+	public ResponseEntity<TokenDTO> authenticate(@Valid @RequestBody CredentialsDTO credentials) throws Exception {
 		try {
 			Client client = service.authenticate(
 					new Client(credentials.getEmail(), credentials.getPassword()));
-			return new TokenDTO(client.getName(), jwtService.generationToken(client));
+			return ResponseEntity.ok(new TokenDTO(client.getName(), jwtService.generationToken(client)));
 			
 		} catch(UsernameNotFoundException e) {
 			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "check that the credentials (email and password) are correct.");

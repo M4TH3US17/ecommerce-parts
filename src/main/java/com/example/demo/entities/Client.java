@@ -110,6 +110,10 @@ public class Client implements Serializable, UserDetails {
 		this.roles = roles;
 	}
 	
+	public void addRole(Role role) {
+		this.roles.add(role);
+	}
+	
 	@JsonIgnore
 	@Override
 	public String getUsername() {
